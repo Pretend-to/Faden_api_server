@@ -1,6 +1,6 @@
 # FCIP-Faden-Server
 
-   ![VSCODE Logo](https://github.com/Pretend-to/Hebust-Networker-Keeper/blob/main/.gitignore/logo.gif?raw=true)
+   ![VSCODE Logo](https://github.com/Pretend-to/Faden_api_server/blob/main/github/logo.gif?raw=true)
 
 ## 写在前前面
 
@@ -16,8 +16,14 @@
 * yunzai
 
 ## 云崽用户食用方法：
-下载仓库里---文件到云崽/plugins/example/就行了
+
+下载仓库里Faden!文件到云崽/plugins/example/就行了
+
+使用示例：
+ ![example](https://github.com/Pretend-to/Faden_api_server/blob/main/github/example.jpg?raw=true)
+ 
 -----
+
 ## API食用方法
 
 ## GET 请求处理程序
