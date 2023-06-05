@@ -20,7 +20,7 @@
 下载仓库里Faden!文件到云崽/plugins/example/就行了
 
 使用示例：
- ![example](https://github.com/Pretend-to/Faden_api_server/blob/main/github/example.jpg?raw=true)
+ ![example](https://github.com/Pretend-to/Faden_api_server/blob/main/github/example.png?raw=true)
  
 -----
 
