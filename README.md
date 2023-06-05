@@ -13,7 +13,7 @@
 
 ## 环境准备
 * nodejs
-* yunzai
+* ~~yunzai~~
 
 ## 云崽用户食用方法：
 
