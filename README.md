@@ -77,3 +77,81 @@ HTTP/1.1 200 OK
   "text": "你好，Tom，欢迎光临 FCIP 的网站！"
 }
 ```
+
+## API部署文档
+
+### 第 1 步：下载项目
+
+首，需要从 GitHub 仓库下载项目。可以使用以下命令将项目克隆到本地：
+
+```bash
+git clone https://github.com/Pretend-to/Faden_api_server.git
+```
+
+进入项目目录：
+
+```bash
+cd Faden_api_server
+```
+
+### 第 2 步：安装项目依赖
+
+在项目根目录下运行以下命令安装项目的依赖：
+
+```bash
+pnpm install
+```
+
+
+### 第 3 步：指定监听端口
+
+为了指定应用程序的监听端口，你可以修改app.js文件末尾
+
+```JavaScript
+app.listen(3000, () => {
+  console.log('服务器已启动');
+});
+```
+将3000修改为指定的端口即可。
+
+### 第 4 步：安装 pm2
+
+如果您还安装 pm2，可以使用以下命令进行全局安装：
+
+```bash
+pnpm install pm2 -g
+```
+
+### 第 5 步：使用 pm2 运行应用程序
+
+现在您已经安了 pm2，可以运行以下命令启动您的应用程序：
+
+```bash
+pm2 start app.js --name="Faden_api_server"
+```
+
+运行该命令后，pm2 将启动应用程序并持续监控。您可以使用以下命令查看应用程序的状态：
+
+```bash
+pm2
+```
+
+如果需要停止应用程序，可以运行以下命令：
+
+```bash
+pm2 stop Faden_api_server
+```
+
+重应用程序：
+
+```bash
+pm2 restart Faden_api_server
+```
+
+查看应用程序日志：
+
+```bash
+pm2 logs Faden_api_server
+```
+
+### 完成
