@@ -4,12 +4,11 @@
 
 ## 写在前前面
 
-作者个人网站 [fcip.xyz](https://fcip.xyz) (欢迎关注博客，不定时分享些有趣的项目和工具)
+作者个人网站 [fcip.xyz](https://fcip.xyz)
 
-推荐 [点击加入QQ群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=BPVotGnSlCdy9AWXKSw4WlY6XjgJ2Z7O&authKey=4Obq%2FxNAuF7qL3z96uXMoV8KqxiSbtTCbEjYIer38ZW6%2F%2BERcJMTg90BhGRh2iQJ&noverify=0&group_code=798543340) (链接异常的话也可以搜索群号798543340)聊天吹水群都是**小白**。
+推荐 [点击加入QQ群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=BPVotGnSlCdy9AWXKSw4WlY6XjgJ2Z7O&authKey=4Obq%2FxNAuF7qL3z96uXMoV8KqxiSbtTCbEjYIer38ZW6%2F%2BERcJMTg90BhGRh2iQJ&noverify=0&group_code=798543340) 聊天吹水群**都是小白**。
 
 ## 写在前面
-写这个的缘由就是看见群里有个发电机器人就搞了一个，适配云崽V3
 data.json是所有文案的来源，您可以参照原文件的格式为他添加您喜欢的内容，如果能提一个pr那更好了🤤
 
 ## 环境准备
@@ -18,10 +17,10 @@ data.json是所有文案的来源，您可以参照原文件的格式为他添�
 
 ## 云崽用户食用方法：
 
-下载仓库里Faden!.js文件到云崽/plugins/example/就行了
+下载仓库里Faden.js文件到云崽/plugins/example/就行了
 
 使用示例：
- ![example](https://github.com/Pretend-to/Faden_api_server/blob/main/github/example.png?raw=true)
+ ![example](https://foruda.gitee.com/images/1685992842031372495/2e102be7_12609219.jpeg)
  
 -----
 
