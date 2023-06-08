@@ -29,7 +29,7 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 ### 2. poken.js--收到戳一戳会随机回复发电语录或随机表情包
 
 使用示例：
-![example2](https://github.com/Pretend-to/Faden_api_server/blob/main/github/example2.png?raw=true)
+![example2](https://foruda.gitee.com/images/1686215136161971103/e38d5171_12609219.png)
  
 -----
 
