@@ -1,3 +1,8 @@
+/**
+/  由 秋山 澪 魔改自 ikechan8370 大佬的 memes 插件，原插件地址：https://github.com/ikechan8370/yunzai-meme
+/  借用了Randommemes方法，触发方式改为戳一戳并融合了发电功能。
+*/
+
 import plugin from '../../lib/plugins/plugin.js'
 import cfg from '../../lib/config/config.js'
 import fetch, { FormData, File } from 'node-fetch'
@@ -7,12 +12,9 @@ import _ from 'lodash'
 if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
-const baseUrl = 'http://localhost:2233'
-/**
- * 主人保护，撅主人时会被反撅
- * @type {boolean}
- */
-const masterProtectDo = true
+
+const baseUrl = 'https://api.fcip.xyz/memes/'
+
 export class meme extends plugin {
   constructor() {
     let meme = {
@@ -31,12 +33,9 @@ export class meme extends plugin {
 
   async poked(e) {
     if (e.target_id === cfg.qq) {
-      console.log('[Mio戳一戳]');
       if (Math.random() < 0.5) {
-        console.log('[生成表情包]');
         return await this.memes(e);
       } else {
-        console.log('[当场发电]');
         return await this.faden(e);
       }
     }
@@ -44,10 +43,10 @@ export class meme extends plugin {
   }
 
   async faden(e) {
-    console.log(e);
+    //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
-    console.log(poker.card) // 输出群员的昵称
-    let url = `http://love.fcip.xyz/api?name=${poker.card}`;
+    console.log('[Mio戳一戳][当场发电]' + poker.card) // 输出群员的昵称
+    let url = `http://api.fcip.xyz/faden/api?name=${poker.card}`;
     try {
       let response = await fetch(url);
       if (response.status === 200) {
@@ -69,27 +68,26 @@ export class meme extends plugin {
   async memes(e) {
     let keys = Object.keys(infos)
     let index = _.random(0, keys.length - 1, false)
-    console.log(keys, index)
     let targetCode = keys[index]
     let userInfos
     let formData = new FormData()
     let info = infos[targetCode]
     let fileLoc
     let text
-    let args
+    //console.log(keys, index)
     //console.log(Object.getOwnPropertyNames(e));
-
+    //console.log(e)
+    
+      
     const poker = await e.group.pickMember(e.operator_id, false)
-
+    const self = await e.group.pickMember(e.self_id, false)
+    
     if (info.params.max_images > 0) {
       let imgUrls = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.operator_id}`]
-      if (imgUrls.length < info.params.min_images && imgUrls.indexOf(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.sender.user_id}`) === -1) {
+      if (imgUrls.length < info.params.min_images )  {
         // 如果数量不够，补上发送者头像，且放到最前面
-        let me = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.sender.user_id}`]
-        let done = false
-        if (!done) {
-          imgUrls = me.concat(imgUrls)
-        }
+        let me = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.self_id}`]
+        imgUrls = me.concat(imgUrls)
         // imgUrls.push(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.msg.sender.user_id}`)
       }
       imgUrls = imgUrls.slice(0, Math.min(info.params.max_images, imgUrls.length))
@@ -115,21 +113,22 @@ export class meme extends plugin {
       userInfos = [{ text: poker.card || poker.nickname, gender: poker.sex }]
     }
 
-    //args = handleArgs(targetCode, args, userInfos)
-
-    if (args) {
-      formData.set('args', args)
+    let target = poker.card
+    
+    if (info.params.max_images === 1) {
+      console.log('[Mio戳一戳][为"'+ poker.card + '"生成[' + info.keywords + ']表情包]'  );
+    } else if (info.params.max_images === 2) {
+      console.log('[Mio戳一戳][为"' + poker.card + '"&"' + self.card + '"生成[' + info.keywords + ']表情包]');
     }
 
-    let target = poker.card
-
-    console.log('input', { target, targetCode, images: formData.getAll('images'), texts: formData.getAll('texts'), args: formData.getAll('args') })
+ 
+    //console.log('input', { target, targetCode, images: formData.getAll('images'), texts: formData.getAll('texts') })
     let response = await fetch(baseUrl + '/memes/' + targetCode + '/', {
       method: 'POST',
       body: formData
 
     })
-    console.log(response.status)
+    //console.log(response.status)
     if (response.status > 299) {
       let error = await response.text()
       console.error(error)
@@ -2209,10 +2208,6 @@ const infos =
   }
 }
 
-
-
-
-
 function mkdirs(dirname) {
   if (fs.existsSync(dirname)) {
     return true
@@ -2223,8 +2218,3 @@ function mkdirs(dirname) {
     }
   }
 }
-
-async function getMasterQQ() {
-  return cfg.default.masterQQ
-}
-
