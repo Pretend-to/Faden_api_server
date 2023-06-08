@@ -20,12 +20,12 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 
 为云崽用户提供了两个插件，下载仓库里Faden.js/poken.js文件到云崽/plugins/example/就行了
 
-Faden.js--通过“！”触发发电
+### 1. Faden.js--通过“！”触发发电
 
  使用示例：
 ![example](https://foruda.gitee.com/images/1685992842031372495/2e102be7_12609219.jpeg)
 
-poken.js--收到戳一戳会随机回复发电语录或随机表情包
+### 2. poken.js--收到戳一戳会随机回复发电语录或随机表情包
 
 使用示例：
 ![example2](https://foruda.gitee.com/images/1685992842031372495/2e102be7_12609219.jpeg)
