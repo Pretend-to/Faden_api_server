@@ -33,7 +33,7 @@ export class meme extends plugin {
 
   async poked(e) {
     if (e.target_id === cfg.qq) {
-      if (Math.random() < 0.99) {
+      if (Math.random() < 0.5) {
         return await this.memes(e);
       } else {
         return await this.faden(e);
