@@ -13,7 +13,7 @@ if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
 
-const baseUrl = 'https://api.fcip.xyz/memes/'
+const baseUrl = 'http://api.fcip.xyz/memes/'
 
 export class meme extends plugin {
   constructor() {

@@ -20,7 +20,7 @@ export class Mio extends plugin {
     let name;
     let raw = e.msg.replace(/^[！!]+|[！!]+$/g, "");
     console.log(raw);
-    if (raw.length > 10 ) {
+    if (raw.length > 3 ) {
       return;
     }  
     if (e.message.filter(m => m.type === 'at').length === 1) {
