@@ -36,7 +36,7 @@ export class Mio extends plugin {
       if (response.status === 200) {
         let json = await response.json();
         if (json.text) {
-          await this.reply(json.text, true);
+          await this.reply(json.text, false);
         } else {
           await e.reply('连接api接口失败！错误原因：' + json.toString());
           return true;
