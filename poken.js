@@ -45,11 +45,11 @@ export class meme extends plugin {
   async faden(e) {
     //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
-    console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']' ) // 输出群员的昵称
+    console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']') // 输出群员的昵称
     let url = new URL('/faden/api', baseUrl);
     url.searchParams.set('name', poker.card || poker.nickname);
     try {
-       let response = await fetch(url.toString());
+      let response = await fetch(url.toString());
       if (response.status === 200) {
         let json = await response.json();
         if (json.text) {
@@ -65,7 +65,6 @@ export class meme extends plugin {
       return false;
     }
   }
-
   async memes(e) {
     let keys = Object.keys(infos)
     let index = _.random(0, keys.length - 1, false)
@@ -75,16 +74,17 @@ export class meme extends plugin {
     let info = infos[targetCode]
     let fileLoc
     let text
+    
     //console.log(keys, index)
     //console.log(Object.getOwnPropertyNames(e));
     //console.log(e)
-          
+
     const poker = await e.group.pickMember(e.operator_id, false)
     const self = await e.group.pickMember(e.self_id, false)
-    
+
     if (info.params.max_images > 0) {
       let imgUrls = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.operator_id}`]
-      if (imgUrls.length < info.params.min_images )  {
+      if (imgUrls.length < info.params.min_images) {
         // 如果数量不够，补上发送者头像，且放到最前面
         let me = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.self_id}`]
         imgUrls = me.concat(imgUrls)
@@ -107,17 +107,17 @@ export class meme extends plugin {
       text = (poker.card || poker.nickname)
       formData.append('text', text)
     }
-    
+
     if (info.params.max_images === 1) {
-      console.log('[Mio戳一戳][为"'+ (poker.card || poker.nickname) + '"生成[' + info.keywords + ']表情包]'  );
+      console.log('[Mio戳一戳][为"' + (poker.card || poker.nickname) + '"生成[' + info.keywords + ']表情包]');
     } else if (info.params.max_images === 2) {
       console.log('[Mio戳一戳][为"' + (poker.card || poker.nickname) + '"&"' + (self.card || self.nickname) + '"生成[' + info.keywords + ']表情包]');
     }
- 
+
     //console.log('input', { targetCode, images: formData.getAll('images'), texts: formData.getAll('texts') })
     let response = await fetch(baseUrl + '/memes/memes/' + targetCode + '/', {
-    method: 'POST',
-    body: formData
+      method: 'POST',
+      body: formData
     })
     //console.log(response.status)
     if (response.status > 299) {
