@@ -13,7 +13,7 @@ if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
 
-const baseUrl = 'http://api.fcip.xyz/memes/'
+let baseUrl = 'https://api.fcip.xyz'
 
 export class meme extends plugin {
   constructor() {
@@ -33,7 +33,7 @@ export class meme extends plugin {
 
   async poked(e) {
     if (e.target_id === cfg.qq) {
-      if (Math.random() < 0.5) {
+      if (Math.random() < 0.50) {
         return await this.memes(e);
       } else {
         return await this.faden(e);
@@ -46,9 +46,10 @@ export class meme extends plugin {
     //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
     console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']' ) // 输出群员的昵称
-    let url = `http://api.fcip.xyz/faden/api?name=${poker.card || poker.nickname}`;
+    let url = new URL('/faden/api', baseUrl);
+    url.searchParams.set('name', poker.card || poker.nickname);
     try {
-      let response = await fetch(url);
+       let response = await fetch(url.toString());
       if (response.status === 200) {
         let json = await response.json();
         if (json.text) {
@@ -63,7 +64,7 @@ export class meme extends plugin {
       await e.reply('连接api接口失败！错误原因：' + err);
       return false;
     }
-  }
+
 
   async memes(e) {
     let keys = Object.keys(infos)
@@ -112,12 +113,11 @@ export class meme extends plugin {
     } else if (info.params.max_images === 2) {
       console.log('[Mio戳一戳][为"' + (poker.card || poker.nickname) + '"&"' + (self.card || self.nickname) + '"生成[' + info.keywords + ']表情包]');
     }
-
  
     //console.log('input', { targetCode, images: formData.getAll('images'), texts: formData.getAll('texts') })
-    let response = await fetch(baseUrl + '/memes/' + targetCode + '/', {
-      method: 'POST',
-      body: formData
+    let response = await fetch(baseUrl + '/memes/memes/' + targetCode + '/', {
+    method: 'POST',
+    body: formData
     })
     //console.log(response.status)
     if (response.status > 299) {

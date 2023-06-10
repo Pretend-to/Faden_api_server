@@ -30,7 +30,7 @@ export class Mio extends plugin {
     } else {
       name = e.sender.title ? e.sender.title : e.sender.card;
     }
-    let url = `http://api.fcip.xyz/faden/api?name=${name}`;
+    let url = `https://api.fcip.xyz/faden/api?name=${name}`;
     try {
       let response = await fetch(url);
       if (response.status === 200) {
