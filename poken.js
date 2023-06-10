@@ -64,7 +64,7 @@ export class meme extends plugin {
       await e.reply('连接api接口失败！错误原因：' + err);
       return false;
     }
-
+  }
 
   async memes(e) {
     let keys = Object.keys(infos)
