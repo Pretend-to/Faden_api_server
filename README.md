@@ -23,10 +23,14 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 
 ### 1. Faden.js--通过“！”触发发电
 
+
  使用示例：
 ![example](https://foruda.gitee.com/images/1685992842031372495/2e102be7_12609219.jpeg)
 
-### 2. poken.js--收到戳一戳会随机回复发电语录或随机表情包
+### 2. (cn_)poken.js--收到戳一戳会随机回复发电语录或随机表情包
+
+(国内网络环境请下载`cn_poken.js`)
+
 
 使用示例：
 ![example2](https://foruda.gitee.com/images/1686215136161971103/e38d5171_12609219.png)
