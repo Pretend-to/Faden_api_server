@@ -74,7 +74,7 @@ export class meme extends plugin {
     let info = infos[targetCode]
     let fileLoc
     let text
-    
+
     //console.log(keys, index)
     //console.log(Object.getOwnPropertyNames(e));
     //console.log(e)
