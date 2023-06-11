@@ -14,7 +14,6 @@ if (!global.segment) {
 }
 
 let memebaseUrl = 'https://memes.ikechan8370.com'
-let fadenbaseUrl = 'http://api.caonm.net'
 
 export class meme extends plugin {
   constructor() {
@@ -47,14 +46,13 @@ export class meme extends plugin {
     //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
     console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']') // 输出群员的昵称
-    let url = new URL('/api/fab/f.php', fadenbaseUrl);
-    url.searchParams.set('msg', poker.card || poker.nickname);
+    let url = `http://api.caonm.net/api/fab/f.php?msg=${poker.card}`
     try {
       let response = await fetch(url.toString());
       if (response.status === 200) {
         let json = await response.json();
-        if (json.text) {
-          await this.reply(json.text, true);
+        if (json.data) {
+          await this.reply(json.data, false);
         } else {
           await e.reply('连接api接口失败！错误原因：' + json.toString());
           return true;
