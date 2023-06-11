@@ -14,7 +14,7 @@ if (!global.segment) {
 }
 
 let memebaseUrl = 'https://memes.ikechan8370.com'
-let fadenbaseurl = 'http://api.caonm.net'
+let fadenbaseUrl = 'http://api.caonm.net'
 
 export class meme extends plugin {
   constructor() {
@@ -47,7 +47,7 @@ export class meme extends plugin {
     //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
     console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']') // 输出群员的昵称
-    let url = new URL('/api/fab/f.php', baseUrl);
+    let url = new URL('/api/fab/f.php', fadenbaseUrl);
     url.searchParams.set('msg', poker.card || poker.nickname);
     try {
       let response = await fetch(url.toString());
