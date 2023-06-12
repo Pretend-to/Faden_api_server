@@ -1,5 +1,5 @@
 import plugin from '../../lib/plugins/plugin.js';
-import { segment } from 'icqq';
+import https from 'https';
 
 export class Mio extends plugin {
   constructor(e) {
@@ -31,21 +31,22 @@ export class Mio extends plugin {
       name = e.sender.title ? e.sender.title : e.sender.card;
     }
     let url = `https://api.fcip.xyz/faden/api?name=${name}`;
-    try {
-      let response = await fetch(url);
-      if (response.status === 200) {
-        let json = await response.json();
+    https.get(url, (response) => {
+      let data = '';
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+      response.on('end', () => {
+        let json = JSON.parse(data);
         if (json.text) {
-          await this.reply(json.text, false);
+          this.reply(json.text, false);
         } else {
-          await e.reply('连接api接口失败！错误原因：' + json.toString());
-          return true;
+          e.reply('连接api接口失败！错误原因：' + json.toString());
         }
-      }
-    } catch (err) {
+      });
+    }).on('error', (err) => {
       logger.error('连接api接口失败！错误原因：', err);
-      await e.reply('连接api接口失败！错误原因：' + err);
-      return false;
-    }
+      e.reply('连接api接口失败！错误原因：' + err);
+    });
   }
 }
