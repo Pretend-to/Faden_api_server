@@ -9,18 +9,19 @@ export class Mio extends plugin {
       event: 'message',
       priority: 1000,
       rule: [{
-        reg: ".*[！!]$",
-        fnc: 'show'
+        reg: ".*[！!]{2}$",
+        fnc: 'faden'
       }]
     });
   }
 
-  async show(e) {
-    console.log(e);
+  async faden(e) {
+    // console.log(e);
     let name;
     let raw = e.msg.replace(/^[！!]+|[！!]+$/g, "");
-    console.log(raw);
-    if (raw.length > 3 ) {
+    console.log("[尝试为" + raw + "发电中，长度" + raw.length + "字符]" );
+    if (raw.length > 4 ) {
+      console.log("[发电失败！][文本长度过长自动取消]");
       return;
     }  
     if (e.message.filter(m => m.type === 'at').length === 1) {
