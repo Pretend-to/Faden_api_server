@@ -21,8 +21,9 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 为云崽用户提供了两个插件，下载仓库里yz-plugin/faden.js或(cn_)poken.js文件,然后复制到云崽/plugins/example/就行了,不必要本地部署API
 
 
-### 1. Faden.js--通过“！”触发发电
+### 1. Faden.js--通过“！！”触发发电
 
+***(为避免冲突已修改为通过两个连续！来发电)***
 
  使用示例：
 ![example](https://foruda.gitee.com/images/1685992842031372495/2e102be7_12609219.jpeg)
