@@ -1,47 +1,56 @@
-import express, { json } from 'express';
+import express from 'express';
 import { readFileSync } from 'fs';
 import rateLimit from 'express-rate-limit';
-import morgan from 'morgan';
 
 const app = express();
 
-app.use(json()); // 为解析 POST 请求中的 JSON 添加中间件
+app.use(express.json()); // 使用内置的JSON中间件来解析POST请求中的JSON数据
 
-// 读取 data.json 文件中的数据
+// 从data.json文件中读取数据
 const data = JSON.parse(readFileSync('data.json'));
 
-// 显示日志
-app.use(morgan('tiny'));
+// 启用日志记录
+const getRealIp = (req) => {
+  const forwardedFor = req.headers['x-forwarded-for'];
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0];
+  }
+  return (req.ip); // 或者返回一个默认的IP地址
+};
 
-// 添加基于 IP 地址的速率限制
+// 基于IP地址添加请求限制
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 限制的时间窗口，这里是 15 分钟
-  max: 100, // 在窗口期内允许的最大请求次数
-  message: '请求过于频繁，请稍后再试。' // 超过请求次数限制时返回的错误消息
+  windowMs: 15 * 60 * 1000, // 15分钟
+  max: 100,
+  message: '请求过多，请稍后再试。',
+  keyGenerator: getRealIp,
 });
 
-// 处理 GET 请求
-app.get('/api', limiter, (req, res) => {
+// 处理GET和POST请求
+app.use('/api', limiter); // 将请求限制中间件应用到以'/api'开头的所有路由
+
+app.get('/api', (req, res) => {
   handleRequest(req, res);
 });
 
-// 处理 POST 请求
-app.post('/api', limiter, (req, res) => {
+app.post('/api', (req, res) => {
   handleRequest(req, res);
 });
 
 function handleRequest(req, res) {
-  // 随机选择一条文本
+  // 从data中随机选择一条消息
   const randomIndex = Math.floor(Math.random() * data.messages.length);
-  // 将文本中的 FCIP 字符串替换为请求中的参数或者默认值
+  // 将消息中的'FCIP'替换为查询参数或请求体中的'name'参数，如果不存在则使用默认值'FCIP'
   const text = data.messages[randomIndex].replace(/FCIP/g, req.query.name || req.body.name || 'FCIP');
+  // 获取真实的IP地址
+  const realIp = getRealIp(req);
   // 记录请求日志
-  console.log(`[${new Date().toLocaleString()}] ${req.ip} ${req.method} ${req.url} - ${res.statusCode}`);
-  // 返回处理后的结果
+  console.log(`[${new Date().toLocaleString()}] ${realIp} ${req.method} ${req.url} - ${res.statusCode}\n${text}`);
+  // 发送处理后的结果
   res.send({ text });
 }
 
 // 启动服务器
-app.listen(3000, () => {
+app.listen(8848, () => {
   console.log('服务器已启动');
 });
