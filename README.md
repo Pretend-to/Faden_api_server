@@ -32,7 +32,7 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 ~~(国内网络环境请下载`cn_poken.js`)~~(服务器已迁移至国内)
 
  使用示例：
-![example2.png](github/exampl2.png) 
+![example2.png](github/example2.png) 
 
 -----
 
