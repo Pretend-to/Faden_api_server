@@ -26,16 +26,13 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 ***(为避免冲突已修改为通过两个连续！来发电)***
 
  使用示例：
-![example](https://foruda.gitee.com/images/1685992842031372495/2e102be7_12609219.jpeg)
+![example.png](https://tucdn.wpon.cn/2023/08/05/e3998f3a82053.png)
+### 2. poken.js--收到戳一戳会随机回复发电语录或随机表情包
 
-### 2. (cn_)poken.js--收到戳一戳会随机回复发电语录或随机表情包
-
-(国内网络环境请下载`cn_poken.js`)
-
+~~(国内网络环境请下载`cn_poken.js`)~~(服务器已迁移至国内)
 
 使用示例：
-![example2](https://foruda.gitee.com/images/1686215136161971103/e38d5171_12609219.png)
- 
+![example2.png](https://tucdn.wpon.cn/2023/08/05/c3325eae8da5e.png) 
 -----
 
 ## API 文档
@@ -43,7 +40,7 @@ poken.js 大部分代码来源于 ikechan8370 大佬的 memes 插件，原插件
 ### 1. 请求 URL
 
 ```http
-http://localhost:3000/api
+http://localhost:3000
 ```
 
 ### 2. 请求方法
@@ -68,13 +65,13 @@ http://localhost:3000/api
 - GET 请求示例：
 
 ```http
-GET http://localhost:3000/api?name=Tom
+GET http://localhost:3000?name=Tom
 ```
 
 - POST 请求示例：
 
 ```http
-POST http://localhost:3000/api
+POST http://localhost:3000
 
 {
   "name": "Tom"

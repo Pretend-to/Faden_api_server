@@ -22,7 +22,7 @@ export class meme extends plugin {
       name: '戳一戳',
       dsc: '戳一戳机器人触发效果',
       event: 'notice.group.poke',
-      priority: 5000,
+      priority: 3000,
       rule: [
         {
           fnc: 'poked'
