@@ -13,7 +13,8 @@ if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
 
-let baseUrl = 'https://api.fcip.xyz'
+const meme_api = 'https://api.fcip.xyz/memes'
+const faden_api = 'https://api.fcip.xyz/faden/api'
 
 export class meme extends plugin {
   constructor() {
@@ -46,25 +47,24 @@ export class meme extends plugin {
     //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
     console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']') // 输出群员的昵称
-    let url = new URL('/faden/api', baseUrl);
+    let url = new URL('/faden/api', faden_api);
     url.searchParams.set('name', poker.card || poker.nickname);
     try {
       let response = await fetch(url.toString());
       if (response.status === 200) {
         let json = await response.json();
-        if (json.text) {
-          await this.reply(json.text, true);
-        } else {
-          await e.reply('连接api接口失败！错误原因：' + json.toString());
-          return true;
-        }
-      }
-    } catch (err) {
-      logger.error('连接api接口失败！错误原因：', err);
-      await e.reply('连接api接口失败！错误原因：' + err);
-      return false;
+        await this.reply(json.text, true);
+      }else {
+        await e.reply('连接api接口失败！错误原因：' + json.toString());
+        return true;
+      }}
+    catch (err) {
+    logger.error('连接api接口失败！错误原因：', err);
+    await e.reply('连接api接口失败！错误原因：' + err);
+    return false;
     }
   }
+
   async memes(e) {
     let keys = Object.keys(infos)
     let index = _.random(0, keys.length - 1, false)
@@ -74,10 +74,6 @@ export class meme extends plugin {
     let info = infos[targetCode]
     let fileLoc
     let text
-
-    //console.log(keys, index)
-    //console.log(Object.getOwnPropertyNames(e));
-    //console.log(e)
 
     const poker = await e.group.pickMember(e.operator_id, false)
     const self = await e.group.pickMember(e.self_id, false)
@@ -115,7 +111,7 @@ export class meme extends plugin {
     }
 
     //console.log('input', { targetCode, images: formData.getAll('images'), texts: formData.getAll('texts') })
-    let response = await fetch(baseUrl + '/memes/memes/' + targetCode + '/', {
+    let response = await fetch(meme_api + '/memes/' + targetCode + '/', {
       method: 'POST',
       body: formData
     })

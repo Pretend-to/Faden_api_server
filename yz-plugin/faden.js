@@ -1,5 +1,6 @@
 import plugin from '../../lib/plugins/plugin.js';
 import https from 'https';
+const faden_api = 'https://api.fcip.xyz/faden/api'
 
 export class Mio extends plugin {
   constructor(e) {
@@ -31,7 +32,7 @@ export class Mio extends plugin {
     } else {
       name = e.sender.title ? e.sender.title : e.sender.card;
     }
-    let url = `https://api.fcip.xyz/faden/api?name=${name}`;
+    let url = `${faden_api}?name=${name}`;
     https.get(url, (response) => {
       let data = '';
       response.on('data', (chunk) => {

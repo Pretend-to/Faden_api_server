@@ -27,13 +27,13 @@ const limiter = rateLimit({
 });
 
 // 处理GET和POST请求
-app.use('/api', limiter); // 将请求限制中间件应用到以'/api'开头的所有路由
+app.use('/', limiter); // 将请求限制中间件应用到以'/api'开头的所有路由
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   handleRequest(req, res);
 });
 
-app.post('/api', (req, res) => {
+app.post('/', (req, res) => {
   handleRequest(req, res);
 });
 
