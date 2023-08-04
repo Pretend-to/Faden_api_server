@@ -47,7 +47,7 @@ export class meme extends plugin {
     //console.log(e);
     const poker = await e.group.pickMember(e.operator_id, false)
     console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']') // 输出群员的昵称
-    let url = new URL('/faden/api', faden_api);
+    let url = new URL('/', faden_api);
     url.searchParams.set('name', poker.card || poker.nickname);
     try {
       let response = await fetch(url.toString());
