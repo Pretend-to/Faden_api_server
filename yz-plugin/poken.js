@@ -49,7 +49,7 @@ export class meme extends plugin {
     const name = (poker.title || poker.card || poker.nickname)
     console.log(poker)
     console.log('[Mio戳一戳][当场发电][' + name + ']') // 输出群员的昵称
-    let url = new URL('/', faden_api);
+    let url = new URL('', faden_api);
     url.searchParams.set('name', name);
     try {
       let response = await fetch(url.toString());
