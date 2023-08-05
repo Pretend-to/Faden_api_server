@@ -104,7 +104,7 @@ export class meme extends plugin {
     }
     if (!text && info.params.min_texts > 0) {
       text = (poker.title || poker.card || poker.nickname)
-      formData.append('text', text)
+      formData.append('texts', text)
     }
 
     if (info.params.max_images === 1) {
@@ -1078,7 +1078,7 @@ const infos =
     "params": {
       "min_images": 1,
       "max_images": 1,
-      "min_texts": 0,
+      "min_texts": 1,
       "max_texts": 1,
       "default_texts": [],
       "args": []
