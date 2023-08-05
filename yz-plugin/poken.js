@@ -44,18 +44,20 @@ export class meme extends plugin {
   }
 
   async faden(e) {
-    //console.log(e);
-    const poker = await e.group.pickMember(e.operator_id, false)
-    console.log('[Mio戳一戳][当场发电][' + (poker.card || poker.nickname) + ']') // 输出群员的昵称
+    // console.log(e);
+    const poker = await e.group.pickMember(e.operator_id, false).info
+    const name = (poker.title || poker.card || poker.nickname)
+    console.log(poker)
+    console.log('[Mio戳一戳][当场发电][' + name + ']') // 输出群员的昵称
     let url = new URL('/', faden_api);
-    url.searchParams.set('name', poker.card || poker.nickname);
+    url.searchParams.set('name', name);
     try {
       let response = await fetch(url.toString());
       if (response.status === 200) {
         let json = await response.json();
         await this.reply(json.text, true);
       }else {
-        await e.reply('连接api接口失败！错误原因：' + json.toString());
+        await e.reply('连接api接口失败！错误原因：' + response.statusText);
         return true;
       }}
     catch (err) {
@@ -75,8 +77,9 @@ export class meme extends plugin {
     let fileLoc
     let text
 
-    const poker = await e.group.pickMember(e.operator_id, false)
-    const self = await e.group.pickMember(e.self_id, false)
+    const poker = await e.group.pickMember(e.operator_id, false).info
+    const self = await e.group.pickMember(e.self_id, false).info
+    const name = (poker.title || poker.card || poker.nickname)
 
     if (info.params.max_images > 0) {
       let imgUrls = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.operator_id}`]
@@ -100,14 +103,14 @@ export class meme extends plugin {
       }
     }
     if (!text && info.params.min_texts > 0) {
-      text = (poker.card || poker.nickname)
+      text = (poker.title || poker.card || poker.nickname)
       formData.append('text', text)
     }
 
     if (info.params.max_images === 1) {
-      console.log('[Mio戳一戳][为"' + (poker.card || poker.nickname) + '"生成[' + info.keywords + ']表情包]');
+      console.log('[Mio戳一戳][为"' + name + '"生成[' + info.keywords + ']表情包]');
     } else if (info.params.max_images === 2) {
-      console.log('[Mio戳一戳][为"' + (poker.card || poker.nickname) + '"&"' + (self.card || self.nickname) + '"生成[' + info.keywords + ']表情包]');
+      console.log('[Mio戳一戳][为"' + name + '"&"' + (self.card || self.nickname) + '"生成[' + info.keywords + ']表情包]');
     }
 
     //console.log('input', { targetCode, images: formData.getAll('images'), texts: formData.getAll('texts') })
