@@ -13,8 +13,8 @@ if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
 
-const meme_api = 'https://api.fcip.xyz/memes'
-const faden_api = 'https://api.fcip.xyz/faden/api'
+const meme_api = 'http://127.0.0.1:2233'
+const faden_api = 'http://127.0.0.1:8848'
 
 export class meme extends plugin {
   constructor() {
@@ -34,7 +34,7 @@ export class meme extends plugin {
 
   async poked(e) {
     if (e.target_id === cfg.qq) {
-      if (Math.random() < 0.50) {
+      if (Math.random() < 0.75) {
         return await this.memes(e);
       } else {
         return await this.faden(e);
@@ -43,11 +43,36 @@ export class meme extends plugin {
     return;
   }
 
-  async faden(e) {
-    // console.log(e);
-    const poker = await e.group.pickMember(e.operator_id, false).info
+  async get_poker(e) {
+    let poker = null;
+    
+    // 尝试获取 poker 值，最多重试 3 次
+    for (let i = 0; i < 3; i++) {
+      try {
+        poker = await e.group.pickMember(e.operator_id, false).info;
+        if (poker) {
+          break; // 成功获取到 poker 值，跳出循环
+        }else{
+          continue;
+        }
+      } catch (error) {
+        console.error('[Mio戳一戳] 获取 poker 发生错误：', error);
+        return false;
+      }
+    }
+    if(poker == null){
+      e.reply('获取 poker 发生错误');
+        return ;
+    }
     const name = (poker.title || poker.card || poker.nickname)
-    console.log(poker)
+    return name;
+  }
+
+  async faden(e) {
+    const name = await this.get_poker(e)
+    if (!name) {
+      return false;
+    }
     console.log('[Mio戳一戳][当场发电][' + name + ']') // 输出群员的昵称
     let url = new URL('', faden_api);
     url.searchParams.set('name', name);
@@ -71,15 +96,17 @@ export class meme extends plugin {
     let keys = Object.keys(infos)
     let index = _.random(0, keys.length - 1, false)
     let targetCode = keys[index]
-    //let userInfos
+    //let targetCode = 'make_friend'
     let formData = new FormData()
     let info = infos[targetCode]
     let fileLoc
     let text
-
-    const poker = await e.group.pickMember(e.operator_id, false).info
+    
+    const name = await this.get_poker(e)
+    if (!name) {
+      return false;
+    }
     const self = await e.group.pickMember(e.self_id, false).info
-    const name = (poker.title || poker.card || poker.nickname)
 
     if (info.params.max_images > 0) {
       let imgUrls = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.operator_id}`]
@@ -103,7 +130,7 @@ export class meme extends plugin {
       }
     }
     if (!text && info.params.min_texts > 0) {
-      text = (poker.title || poker.card || poker.nickname)
+      text = name
       formData.append('texts', text)
     }
 
@@ -151,6 +178,21 @@ const infos =
       "max_images": 1,
       "min_texts": 0,
       "max_texts": 0,
+      "default_texts": [],
+      "args": []
+    }
+  },
+  "make_friend": {
+    "key": "make_friend",
+    "keywords": [
+      "交个朋友"
+    ],
+    "patterns": [],
+    "params": {
+      "min_images": 1,
+      "max_images": 1,
+      "min_texts": 1,
+      "max_texts": 1,
       "default_texts": [],
       "args": []
     }
@@ -1064,21 +1106,6 @@ const infos =
       "min_images": 1,
       "max_images": 1,
       "min_texts": 0,
-      "max_texts": 1,
-      "default_texts": [],
-      "args": []
-    }
-  },
-  "make_friend": {
-    "key": "make_friend",
-    "keywords": [
-      "交个朋友"
-    ],
-    "patterns": [],
-    "params": {
-      "min_images": 1,
-      "max_images": 1,
-      "min_texts": 1,
       "max_texts": 1,
       "default_texts": [],
       "args": []
