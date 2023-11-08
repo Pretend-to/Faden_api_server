@@ -1,4 +1,5 @@
 import plugin from '../../lib/plugins/plugin.js';
+import fetch from 'node-fetch'
 
 export class Mio extends plugin {
   constructor(e) {
