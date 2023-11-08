@@ -1,6 +1,6 @@
 import plugin from '../../lib/plugins/plugin.js';
 import https from 'https';
-const faden_api = 'https://api.fcip.xyz/faden/api'
+const faden_api = 'https://pi.fcip.top:5002'
 
 export class Mio extends plugin {
   constructor(e) {
