@@ -1,6 +1,4 @@
 import plugin from '../../lib/plugins/plugin.js';
-import https from 'https';
-const faden_api = 'https://pi.fcip.top:5002'
 
 export class Mio extends plugin {
   constructor(e) {
@@ -17,14 +15,15 @@ export class Mio extends plugin {
   }
 
   async faden(e) {
-    // console.log(e);
     let name;
     let raw = e.msg.replace(/^[！!]+|[！!]+$/g, "");
-    console.log("[尝试为" + raw + "发电中，长度" + raw.length + "字符]" );
-    if (raw.length > 4 ) {
+    console.log("[尝试为" + raw + "发电中，长度" + raw.length + "字符]");
+
+    if (raw.length > 4) {
       console.log("[发电失败！][文本长度过长自动取消]");
       return;
-    }  
+    }
+
     if (e.message.filter(m => m.type === 'at').length === 1) {
       name = e.message.find(m => m.type === 'at').text.replace(/@/g, '');
     } else if (raw) {
@@ -32,23 +31,21 @@ export class Mio extends plugin {
     } else {
       name = e.sender.title ? e.sender.title : e.sender.card;
     }
-    let url = `${faden_api}?name=${name}`;
-    https.get(url, (response) => {
-      let data = '';
-      response.on('data', (chunk) => {
-        data += chunk;
-      });
-      response.on('end', () => {
-        let json = JSON.parse(data);
-        if (json.text) {
-          this.reply(json.text, false);
-        } else {
-          e.reply('连接api接口失败！错误原因：' + json.toString());
-        }
-      });
-    }).on('error', (err) => {
-      logger.error('连接api接口失败！错误原因：', err);
+
+    let url = `http://mio.fcip.top:5002?name=${name}`;
+
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+
+      if (json.text) {
+        this.reply(json.text, false);
+      } else {
+        e.reply('连接api接口失败！错误原因：' + json.toString());
+      }
+    } catch (err) {
+      console.error('连接api接口失败！错误原因：', err);
       e.reply('连接api接口失败！错误原因：' + err);
-    });
+    }
   }
 }
