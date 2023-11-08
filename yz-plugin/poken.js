@@ -13,8 +13,8 @@ if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
 
-const meme_api = 'https://pi.fcip.top:5001'
-const faden_api = 'https://pi.fcip.top:5002'
+const meme_api = 'http://mio.fcip.top:5001'
+const faden_api = 'http://mio.fcip.top:5002'
 
 export class meme extends plugin {
   constructor() {
