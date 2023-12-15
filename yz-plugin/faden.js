@@ -33,7 +33,7 @@ export class Mio extends plugin {
       name = e.sender.title ? e.sender.title : e.sender.card;
     }
 
-    let url = `http://mio.fcip.top:5002?name=${name}`;
+    let url = `http://api.krumio.com/faden?name=${name}`;
 
     try {
       const response = await fetch(url);
