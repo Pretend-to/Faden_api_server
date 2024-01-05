@@ -14,8 +14,8 @@ if (!global.segment) {
 }
 
 
-const meme_api = 'https://ikechan8370-meme-generator.hf.space' //借一下ikechan佬的，反正是hf（），有空再复制一个
-const faden_api = 'http://api.krumio.com/faden'
+const meme_api = 'https://api.fcip.top/meme' 
+const faden_api = 'https://api.fcip.top/faden'
 
 export class meme extends plugin {
   constructor() {
