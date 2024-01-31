@@ -14,8 +14,8 @@ if (!global.segment) {
 }
 
 
-const meme_api = 'https://api.fcip.top/meme' 
-const faden_api = 'https://api.fcip.top/faden'
+const meme_api = 'https://api.krumio.com/meme' 
+const faden_api = 'https://api.krumio.com/faden'
 
 export class meme extends plugin {
   constructor() {
