@@ -35,11 +35,20 @@ export class meme extends plugin {
 
   async poked(e) {
     if (e.target_id === cfg.qq) {
-      if (Math.random() < 0.75) {
-        return await this.memes(e);
-      } else {
-        return await this.faden(e);
+      let ttl = await redis.ttl(`POKEN:POKE:${e.operator_id}`)
+      if (ttl > 0) {
+        console.log('[Mio戳一戳]' + e.operator_id + '正在cd中，剩余' + ttl +'秒,跳过');
+        return;
       }
+      else {
+        await redis.set(`POKEN:POKE:${e.operator_id}`, 1, {EX:10}) 
+        if (Math.random() < 0.75) {
+          return await this.memes(e);
+        } else {
+          return await this.faden(e);
+        }
+      }
+      
     }
     return;
   }
@@ -63,7 +72,7 @@ export class meme extends plugin {
     }
     if(poker == null){
       e.reply('获取 poker 发生错误');
-        return ;
+      return ;
     }
     const name = (poker.title || poker.card || poker.nickname)
     return name;
