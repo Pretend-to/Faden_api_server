@@ -86,6 +86,7 @@ export class meme extends plugin {
     console.log('[Mio戳一戳][当场发电][' + name + ']') // 输出群员的昵称
     let url = new URL('', faden_api);
     url.searchParams.set('name', name);
+    url.searchParams.set('t', new Date().getTime());
     try {
       let response = await fetch(url.toString());
       if (response.status === 200) {
