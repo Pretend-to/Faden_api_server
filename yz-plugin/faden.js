@@ -33,7 +33,7 @@ export class Mio extends plugin {
       name = e.sender.title ? e.sender.title : e.sender.card;
     }
 
-    let url = `https://api.krumio.com/faden?name=${name}?t=${new Date().getTime()}`;
+    let url = `https://api.krumio.com/faden?name=${name}&t=${new Date().getTime()}`;
 
 
     try {
