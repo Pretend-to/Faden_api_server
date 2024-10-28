@@ -13,8 +13,13 @@ if (!global.segment) {
   global.segment = (await import('oicq')).segment
 }
 
+/**
+ * 机器人发表情是否引用回复用户
+ * @type {boolean}
+ */
+const reply = true
 
-const meme_api = 'https://api.krumio.com/meme' 
+const meme_api = 'https://api.krumio.com/meme'
 const faden_api = 'https://api.krumio.com/faden'
 
 export class meme extends plugin {
@@ -34,35 +39,36 @@ export class meme extends plugin {
   }
 
   async poked(e) {
-    if (e.target_id === cfg.qq) {
+    if (e.target_id === e.self_id) {
       let ttl = await redis.ttl(`POKEN:POKE:${e.operator_id}`)
       if (ttl > 0) {
-        console.log('[Mio戳一戳]' + e.operator_id + '正在cd中，剩余' + ttl +'秒,跳过');
+        console.log('[Mio戳一戳]' + e.operator_id + '正在cd中，剩余' + ttl + '秒,跳过');
         return;
       }
       else {
-        await redis.set(`POKEN:POKE:${e.operator_id}`, 1, {EX:10}) 
+        await redis.set(`POKEN:POKE:${e.operator_id}`, 1, { EX: 10 })
         if (Math.random() < 0.75) {
           return await this.memes(e);
         } else {
           return await this.faden(e);
         }
       }
-      
+
     }
     return;
   }
 
   async get_poker(e) {
     let poker = null;
-    
+
     // 尝试获取 poker 值，最多重试 3 次
     for (let i = 0; i < 3; i++) {
       try {
-        poker = await e.group.pickMember(e.operator_id, false).info;
+        const group_member = e.group.pickMember(e.operator_id, false)
+        poker = await group_member?.info || await group_member?.getInfo?.();
         if (poker) {
           break; // 成功获取到 poker 值，跳出循环
-        }else{
+        } else {
           continue;
         }
       } catch (error) {
@@ -70,9 +76,9 @@ export class meme extends plugin {
         return false;
       }
     }
-    if(poker == null){
+    if (poker == null) {
       e.reply('获取 poker 发生错误');
-      return ;
+      return;
     }
     const name = (poker.title || poker.card || poker.nickname)
     return name;
@@ -92,14 +98,15 @@ export class meme extends plugin {
       if (response.status === 200) {
         let json = await response.json();
         await this.reply(json.text, true);
-      }else {
+      } else {
         await e.reply('连接api接口失败！错误原因：' + response.statusText);
         return true;
-      }}
+      }
+    }
     catch (err) {
-    logger.error('连接api接口失败！错误原因：', err);
-    await e.reply('连接api接口失败！错误原因：' + err);
-    return false;
+      logger.error('连接api接口失败！错误原因：', err);
+      await e.reply('连接api接口失败！错误原因：' + err);
+      return false;
     }
   }
 
@@ -112,12 +119,13 @@ export class meme extends plugin {
     let info = infos[targetCode]
     let fileLoc
     let text
-    
+
     const name = await this.get_poker(e)
     if (!name) {
       return false;
     }
-    const self = await e.group.pickMember(e.self_id, false).info
+    const group_member = e.group.pickMember(e.self_id, false)
+    const self = await group_member?.info || await group_member?.getinfo?.()
 
     if (info.params.max_images > 0) {
       let imgUrls = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.operator_id}`]
@@ -164,12 +172,12 @@ export class meme extends plugin {
       return true
     }
     mkdirs('data/memes/result')
-    let resultFileLoc = `data/memes/result/${Date.now()}.jpg`
+    let resultFileLoc = `data/memes/result/${Date.now()}.gif`
     const resultBlob = await response.blob()
     const resultArrayBuffer = await resultBlob.arrayBuffer()
     const resultBuffer = Buffer.from(resultArrayBuffer)
     await fs.writeFileSync(resultFileLoc, resultBuffer)
-    await e.reply(segment.image(fs.createReadStream(resultFileLoc)))
+    await e.reply(segment.image(`file://${resultFileLoc}`), reply)
     fileLoc && await fs.unlinkSync(fileLoc)
     await fs.unlinkSync(resultFileLoc)
   }
