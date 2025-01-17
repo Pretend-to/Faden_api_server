@@ -4,7 +4,7 @@
 
 ## 写在前前面
 
-作者个人网站 [www.krumio,com](www.krumio,com)
+作者个人网站 [www.krumio.com](www.krumio,com)
 
 推荐 [点击加入QQ群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=BPVotGnSlCdy9AWXKSw4WlY6XjgJ2Z7O&authKey=4Obq%2FxNAuF7qL3z96uXMoV8KqxiSbtTCbEjYIer38ZW6%2F%2BERcJMTg90BhGRh2iQJ&noverify=0&group_code=798543340) 聊天吹水群**都是小白**。
 
